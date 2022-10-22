@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1034697976120",
+    "project_id": "chatapp-7bea7",
+    "storage_bucket": "chatapp-7bea7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034697976120:android:34ca862cc96c4a93e539cd",
+        "android_client_info": {
+          "package_name": "com.daehoonkim.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034697976120-umq9ja8f4bqtg624kqdgh0f35fej4d11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9ZSB9Hk7kxHC1_R89O9LJMqBfZLUvKaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034697976120-umq9ja8f4bqtg624kqdgh0f35fej4d11.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
