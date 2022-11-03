@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useCallback, useContext } from 'react';
+import ChatScreen from './src/ChatScreen/ChatScreen';
 import AuthContext from './src/components/AuthContext';
 import AuthProvider from './src/components/AuthProvider';
 import HomeScreen from './src/HomeScreen/HomeScreen';
@@ -20,7 +21,12 @@ const Screens = () => {
     }
     if (user != null && !processingSignin && !processingSignup) {
       // login
-      return <Stack.Screen name="Home" component={HomeScreen} />;
+      return (
+        <>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
+        </>
+      );
     }
     // logout
     return (
