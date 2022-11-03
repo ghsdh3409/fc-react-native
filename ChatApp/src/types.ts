@@ -1,5 +1,6 @@
 export type RootStackParamList = {
   Signup: undefined;
+  Signin: undefined;
 };
 
 export interface User {
