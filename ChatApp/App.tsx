@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import AuthProvider from './src/components/AuthProvider';
+import SigninScreen from './src/SigninScreen/SigninScreen';
 import SignupScreen from './src/SignupScreen/SignupScreen';
 import { RootStackParamList } from './src/types';
 
@@ -12,6 +13,7 @@ const Screens = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Signin" component={SigninScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
