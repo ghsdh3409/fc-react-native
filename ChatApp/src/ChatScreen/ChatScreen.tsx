@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AuthContext from '../components/AuthContext';
 import Screen from '../components/Screen';
 import Colors from '../modules/Colors';
 import { RootStackParamList } from '../types';
@@ -92,18 +93,21 @@ const disabledSendButtonStyle = [
 const ChatScreen = () => {
   const { params } = useRoute<RouteProp<RootStackParamList, 'Chat'>>();
   const { other, userIds } = params;
-  const { loadingChat, chat } = useChat(userIds);
+  const { loadingChat, chat, sendMessage } = useChat(userIds);
   const [text, setText] = useState('');
   const sendDisabled = useMemo(() => text.length === 0, [text]);
+  const { user: me } = useContext(AuthContext);
 
   const onChangeText = useCallback((newText: string) => {
     setText(newText);
   }, []);
 
   const onPressSendButton = useCallback(() => {
-    // TODO: send text message
-    setText('');
-  }, []);
+    if (me != null) {
+      sendMessage(text, me);
+      setText('');
+    }
+  }, [me, sendMessage, text]);
 
   const renderChat = useCallback(() => {
     if (chat == null) {
