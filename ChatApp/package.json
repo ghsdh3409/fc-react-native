@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.1",
     "add": "^2.0.6",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "react": "18.1.0",
     "react-native": "0.70.3",
     "react-native-safe-area-context": "^4.4.1",
