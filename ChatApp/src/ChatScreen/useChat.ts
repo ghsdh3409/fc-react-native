@@ -21,6 +21,12 @@ const useChat = (userIds: string[]) => {
   const [sending, setSending] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(false);
 
+  const addNewMessages = useCallback((newMessages: Message[]) => {
+    setMessages(prevMessages => {
+      return _.uniqBy(newMessages.concat(prevMessages), m => m.id);
+    });
+  }, []);
+
   const loadChat = useCallback(async () => {
     try {
       setLoadingChat(true);
@@ -81,51 +87,52 @@ const useChat = (userIds: string[]) => {
           .collection(Collections.MESSAGES)
           .add(data);
 
-        setMessages(prevMessages =>
-          [
-            {
-              id: doc.id,
-              ...data,
-            },
-          ].concat(prevMessages),
-        );
+        addNewMessages([
+          {
+            id: doc.id,
+            ...data,
+          },
+        ]);
       } finally {
         setSending(false);
       }
     },
-    [chat?.id],
+    [chat?.id, addNewMessages],
   );
 
-  const loadMessages = useCallback(async (chatId: string) => {
-    try {
-      setLoadingMessages(true);
-      const messagesSnapshot = await firestore()
-        .collection(Collections.CHATS)
-        .doc(chatId)
-        .collection(Collections.MESSAGES)
-        .orderBy('createdAt', 'desc')
-        .get();
-
-      const ms = messagesSnapshot.docs.map<Message>(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          user: data.user,
-          text: data.text,
-          createdAt: data.createdAt.toDate(),
-        };
-      });
-      setMessages(ms);
-    } finally {
-      setLoadingMessages(false);
-    }
-  }, []);
-
   useEffect(() => {
-    if (chat?.id != null) {
-      loadMessages(chat.id);
+    if (chat?.id == null) {
+      return;
     }
-  }, [chat?.id, loadMessages]);
+    setLoadingMessages(true);
+    const unsubscribe = firestore()
+      .collection(Collections.CHATS)
+      .doc(chat.id)
+      .collection(Collections.MESSAGES)
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => {
+        const newMessages = snapshot
+          .docChanges()
+          .filter(({ type }) => type === 'added')
+          .map(docChange => {
+            const { doc } = docChange;
+            const docData = doc.data();
+            const newMessage: Message = {
+              id: doc.id,
+              text: docData.text,
+              user: docData.user,
+              createdAt: docData.createdAt.toDate(),
+            };
+            return newMessage;
+          });
+        addNewMessages(newMessages);
+        setLoadingMessages(false);
+      });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [addNewMessages, chat?.id]);
 
   return {
     chat,
