@@ -14,6 +14,7 @@ import AuthContext from '../components/AuthContext';
 import Screen from '../components/Screen';
 import Colors from '../modules/Colors';
 import { RootStackParamList } from '../types';
+import Message from './Message';
 import useChat from './useChat';
 
 const styles = StyleSheet.create({
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
   },
   messageList: {
     flex: 1,
+    marginVertical: 20,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -82,6 +84,9 @@ const styles = StyleSheet.create({
   sendIcon: {
     color: Colors.WHITE,
     fontSize: 18,
+  },
+  messageSeparator: {
+    height: 8,
   },
 });
 
@@ -132,17 +137,22 @@ const ChatScreen = () => {
           />
         </View>
         <FlatList
+          inverted
           style={styles.messageList}
           data={messages}
           renderItem={({ item: message }) => {
             return (
-              <View>
-                <Text>{message.user.name}</Text>
-                <Text>{message.text}</Text>
-                <Text>{message.createdAt.toISOString()}</Text>
-              </View>
+              <Message
+                name={message.user.name}
+                text={message.text}
+                createdAt={message.createdAt}
+                isOtherMessage={message.user.userId !== me?.userId}
+              />
             );
           }}
+          ItemSeparatorComponent={() => (
+            <View style={styles.messageSeparator} />
+          )}
         />
         <View style={styles.inputContainer}>
           <View style={styles.textInputContainer}>
@@ -162,7 +172,15 @@ const ChatScreen = () => {
         </View>
       </View>
     );
-  }, [chat, onChangeText, text, sendDisabled, onPressSendButton, messages]);
+  }, [
+    chat,
+    onChangeText,
+    text,
+    sendDisabled,
+    onPressSendButton,
+    messages,
+    me?.userId,
+  ]);
 
   return (
     <Screen title={other.name}>
