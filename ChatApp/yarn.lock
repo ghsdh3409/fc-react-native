@@ -1344,24 +1344,32 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.2.0.tgz#7d6d789ae8edf73dc9bed1246cd48277edea8066"
   integrity sha512-o6aam+0Ug1xGK3ABYmBm0B1YuEKfM/5kaoZO0eHbZwSpw9UzDX4G5y4Nx/K20FHqUmJHkZmLvOUFYwN4N+HqKA==
 
-"@react-native-firebase/app@^16.1.1":
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-16.1.1.tgz#4907b2691fc24492e784545d58784b1acf3a3bd5"
-  integrity sha512-7bdUR+dSo6/HA0ilKOZLy1djecgyfRnFSV0tQi1qnD8xW/lBAjMif4idO5frsL5yLC0iefFYOzkVywmFmASqJg==
+"@react-native-firebase/app@^16.4.2":
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-16.4.2.tgz#4635562afecf026233b1a3730a155dbc70ec8557"
+  integrity sha512-puuIW23PmS3svYtqJfVvnsOd2I6vE3DPWTpYuv8e34K+D9iTUiBW6XbiRDqFefXP3QHKvTRJAqNpRtMGybf0Uw==
   dependencies:
     "@expo/config-plugins" "^5.0.1"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^16.1.1":
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-16.1.1.tgz#63dd688ba388fabf2c8185d9e723db56703b3fbb"
-  integrity sha512-PZVIUOQf+vqh+cyLZkqmrfKHEV17QHSGfgpiLIsgdsF46gi0DBg1kIzXbvFoS18Nhr/trRkw2hzsXbBBqll0Qw==
+"@react-native-firebase/auth@^16.4.2":
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-16.4.2.tgz#b6daecc553fd82ef328ed4427b075a4beb5ff34b"
+  integrity sha512-dmXFJjxE6IlfHoDNAFczmRH7WpAEoxpZH/J7kCGrzOY5X/fKedCOA2R8CDxCfmvX51ww9ANtjiTA9bS75zZNeg==
+  dependencies:
+    "@expo/config-plugins" "^5.0.1"
+    plist "^3.0.5"
 
-"@react-native-firebase/firestore@^16.1.1":
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-16.1.1.tgz#b3265e409d447c065071409de70d58579dcf19c6"
-  integrity sha512-ZEG8WnwNoBAqiUpobTBNQErg6YV76GndQYGzqSdsq1N0iqpNaYg9+bkAmsAO7RodGL4vAWVXCrahtpFzgoRAlw==
+"@react-native-firebase/firestore@^16.4.2":
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-16.4.2.tgz#476e758272e6ef69553b91b08091c63b6c573e92"
+  integrity sha512-mNHUzIukGLxaYKe8uXC20np4of/r08vntOaoIZn/waBY48aYEhGm/mnMuTdYgI0Qh9vVWT+3r3SvnlngXmt91w==
+
+"@react-native-firebase/storage@^16.4.2":
+  version "16.4.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-16.4.2.tgz#d7bb2be0b16c23365c58024469a8d91a42231df1"
+  integrity sha512-wSBRE/Ny4wVnhbGe0zu1Sr+fBkwXmnxWHsLkAf4Y1qP1IdM5EuuInuIEwjY9+9TzkvefUBO4zrYW5DqkdVF96w==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -5947,6 +5955,11 @@ react-native-gradle-plugin@^0.70.3:
   version "0.70.3"
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.3.tgz#cbcf0619cbfbddaa9128701aa2d7b4145f9c4fc8"
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
+
+react-native-image-crop-picker@^0.38.1:
+  version "0.38.1"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.38.1.tgz#5973b4a8b55835b987e6be2064de411e849ac005"
+  integrity sha512-cF5UQnWplzHCeiCO+aiGS/0VomWaLmFf3nSsgTMPfY+8+99h8N/eHQvVdSF7RsGw50B8394wGeGyqHjjp8YRWw==
 
 react-native-safe-area-context@^4.4.1:
   version "4.4.1"
