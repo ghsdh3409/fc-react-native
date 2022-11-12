@@ -1,14 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 import _ from 'lodash';
 
-import {
-  Chat,
-  Collections,
-  FirestoreMessageData,
-  Message,
-  User,
-} from '../types';
+import { Chat, Collections, Message, User } from '../types';
 
 const getChatKey = (userIds: string[]) => {
   return _.orderBy(userIds, userId => userId, 'asc');
@@ -83,22 +79,23 @@ const useChat = (userIds: string[]) => {
       }
       try {
         setSending(true);
-        const data: FirestoreMessageData = {
-          text: text,
-          user: user,
-          createdAt: new Date(),
-        };
 
         const doc = await firestore()
           .collection(Collections.CHATS)
           .doc(chat.id)
           .collection(Collections.MESSAGES)
-          .add(data);
+          .add({
+            text: text,
+            user: user,
+            createdAt: firestore.FieldValue.serverTimestamp(),
+          });
 
         addNewMessages([
           {
             id: doc.id,
-            ...data,
+            text: text,
+            user: user,
+            createdAt: new Date(),
           },
         ]);
       } finally {
@@ -119,6 +116,9 @@ const useChat = (userIds: string[]) => {
       .collection(Collections.MESSAGES)
       .orderBy('createdAt', 'desc')
       .onSnapshot(snapshot => {
+        if (snapshot.metadata.hasPendingWrites) {
+          return;
+        }
         const newMessages = snapshot
           .docChanges()
           .filter(({ type }) => type === 'added')
@@ -142,6 +142,54 @@ const useChat = (userIds: string[]) => {
     };
   }, [addNewMessages, chat?.id]);
 
+  const updateMessageReadAt = useCallback(
+    async (userId: string) => {
+      if (chat == null) {
+        return null;
+      }
+      firestore()
+        .collection(Collections.CHATS)
+        .doc(chat.id)
+        .update({
+          [`userToMessageReadAt.${userId}`]:
+            firestore.FieldValue.serverTimestamp(),
+        });
+    },
+    [chat],
+  );
+
+  const [userToMessageReadAt, setUserToMessageReadAt] = useState<{
+    [userId: string]: Date;
+  }>({});
+
+  useEffect(() => {
+    if (chat == null) {
+      return;
+    }
+
+    const unsubscribe = firestore()
+      .collection(Collections.CHATS)
+      .doc(chat.id)
+      .onSnapshot(snapshot => {
+        if (snapshot.metadata.hasPendingWrites) {
+          return;
+        }
+        const chatData = snapshot.data() ?? {};
+        const userToMessageReadTimestamp = chatData.userToMessageReadAt as {
+          [userId: string]: FirebaseFirestoreTypes.Timestamp;
+        };
+        const userToMessageReadDate = _.mapValues(
+          userToMessageReadTimestamp,
+          updateMessageReadTimestamp => updateMessageReadTimestamp.toDate(),
+        );
+        setUserToMessageReadAt(userToMessageReadDate);
+      });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [chat]);
+
   return {
     chat,
     loadingChat,
@@ -149,6 +197,8 @@ const useChat = (userIds: string[]) => {
     messages,
     sending,
     loadingMessages,
+    updateMessageReadAt,
+    userToMessageReadAt,
   };
 };
 
