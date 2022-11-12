@@ -33,6 +33,7 @@ export interface Message {
   user: User;
   text: string | null;
   imageUrl: string | null;
+  audioUrl: string | null;
   createdAt: Date;
 }
 
