@@ -3,13 +3,22 @@ import { StyleSheet, Text, View } from 'react-native';
 import moment from 'moment';
 import Colors from '../modules/Colors';
 import UserPhoto from '../components/UserPhoto';
+import ImageMessage from './ImageMessage';
+
+interface TextMessage {
+  text: string;
+}
+
+interface ImageMessage {
+  url: string;
+}
 
 interface MessageProps {
   name: string;
-  text: string;
+  message: TextMessage | ImageMessage;
   createdAt: Date;
   isOtherMessage: boolean;
-  imageUrl?: string;
+  userImageUrl?: string;
   unreadCount?: number;
 }
 
@@ -72,13 +81,21 @@ const otherMessageStyles = {
 
 const Message = ({
   name,
-  text,
+  message,
   createdAt,
   isOtherMessage,
-  imageUrl,
+  userImageUrl,
   unreadCount = 0,
 }: MessageProps) => {
   const messageStyles = isOtherMessage ? otherMessageStyles : styles;
+  const renderMessage = useCallback(() => {
+    if ('text' in message) {
+      return <Text style={messageStyles.messageText}>{message.text}</Text>;
+    }
+    if ('url' in message) {
+      return <ImageMessage url={message.url} />;
+    }
+  }, [message, messageStyles.messageText]);
   const renderMessageContainer = useCallback(() => {
     const components = [
       <View key="metaInfo" style={messageStyles.metaInfo}>
@@ -90,17 +107,17 @@ const Message = ({
         </Text>
       </View>,
       <View key="message" style={messageStyles.bubble}>
-        <Text style={messageStyles.messageText}>{text}</Text>
+        {renderMessage()}
       </View>,
     ];
     return isOtherMessage ? components.reverse() : components;
-  }, [createdAt, text, messageStyles, isOtherMessage, unreadCount]);
+  }, [createdAt, messageStyles, isOtherMessage, unreadCount, renderMessage]);
   return (
     <View style={styles.root}>
       {isOtherMessage && (
         <UserPhoto
           style={styles.userPhoto}
-          imageUrl={imageUrl}
+          imageUrl={userImageUrl}
           name={name}
           size={34}
         />
