@@ -16,6 +16,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import ImageCropPicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AuthContext from '../components/AuthContext';
 import Screen from '../components/Screen';
@@ -96,6 +97,24 @@ const styles = StyleSheet.create({
   messageSeparator: {
     height: 8,
   },
+  imageButton: {
+    borderWidth: 1,
+    borderColor: Colors.BLACK,
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    marginLeft: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imageIcon: {
+    color: Colors.BLACK,
+    fontSize: 32,
+  },
+  sendingContainer: {
+    paddingTop: 10,
+    alignItems: 'flex-end',
+  },
 });
 
 const disabledSendButtonStyle = [
@@ -114,6 +133,8 @@ const ChatScreen = () => {
     loadingMessages,
     updateMessageReadAt,
     userToMessageReadAt,
+    sendImageMessage,
+    sending,
   } = useChat(userIds);
   const [text, setText] = useState('');
   const sendDisabled = useMemo(() => text.length === 0, [text]);
@@ -138,6 +159,13 @@ const ChatScreen = () => {
       setText('');
     }
   }, [me, sendMessage, text]);
+
+  const onPressImageButton = useCallback(async () => {
+    if (me != null) {
+      const image = await ImageCropPicker.openPicker({ cropping: true });
+      sendImageMessage(image.path, me);
+    }
+  }, [me, sendImageMessage]);
 
   const renderChat = useCallback(() => {
     if (chat == null) {
@@ -176,20 +204,36 @@ const ChatScreen = () => {
             });
             const unreadCount = unreadUsers.length;
 
-            return (
-              <Message
-                name={user?.name ?? ''}
-                text={message.text}
-                createdAt={message.createdAt}
-                isOtherMessage={message.user.userId !== me?.userId}
-                imageUrl={user?.profileUrl}
-                unreadCount={unreadCount}
-              />
-            );
+            if (message.text != null) {
+              return (
+                <Message
+                  name={user?.name ?? ''}
+                  text={message.text}
+                  createdAt={message.createdAt}
+                  isOtherMessage={message.user.userId !== me?.userId}
+                  imageUrl={user?.profileUrl}
+                  unreadCount={unreadCount}
+                />
+              );
+            }
+            if (message.imageUrl != null) {
+              return null;
+            }
+            return null;
           }}
           ItemSeparatorComponent={() => (
             <View style={styles.messageSeparator} />
           )}
+          ListHeaderComponent={() => {
+            if (sending) {
+              return (
+                <View style={styles.sendingContainer}>
+                  <ActivityIndicator />
+                </View>
+              );
+            }
+            return null;
+          }}
         />
         <View style={styles.inputContainer}>
           <View style={styles.textInputContainer}>
@@ -206,6 +250,11 @@ const ChatScreen = () => {
             onPress={onPressSendButton}>
             <Icon style={styles.sendIcon} name="send" />
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.imageButton}
+            onPress={onPressImageButton}>
+            <Icon name="image" style={styles.imageIcon} />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -218,6 +267,8 @@ const ChatScreen = () => {
     messages,
     me?.userId,
     userToMessageReadAt,
+    onPressImageButton,
+    sending,
   ]);
 
   return (
