@@ -620,6 +620,9 @@ PODS:
   - Firebase/Firestore (10.1.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 10.1.0)
+  - Firebase/Messaging (10.1.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 10.1.0)
   - Firebase/Storage (10.1.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.1.0)
@@ -651,6 +654,20 @@ PODS:
     - "gRPC-C++ (~> 1.44.0)"
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseInstallations (10.1.0):
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - PromisesObjC (~> 2.1)
+  - FirebaseMessaging (10.1.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Reachability (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseStorage (10.1.0):
     - FirebaseAppCheckInterop (~> 10.0)
     - FirebaseAuthInterop (~> 10.0)
@@ -659,6 +676,10 @@ PODS:
     - GTMSessionFetcher/Core (~> 2.1)
   - fmt (6.2.1)
   - glog (0.3.5)
+  - GoogleDataTransport (9.2.0):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/AppDelegateSwizzler (7.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -673,6 +694,8 @@ PODS:
     - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.8.0)"
   - GoogleUtilities/Reachability (7.8.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.8.0):
     - GoogleUtilities/Logger
   - "gRPC-C++ (1.44.0)":
     - "gRPC-C++/Implementation (= 1.44.0)"
@@ -1022,19 +1045,24 @@ PODS:
     - React-perflogger (= 0.70.3)
   - RNAudioRecorderPlayer (3.5.1):
     - React-Core
-  - RNFBApp (16.4.2):
+  - RNFBApp (16.4.3):
     - Firebase/CoreOnly (= 10.1.0)
     - React-Core
-  - RNFBAuth (16.4.2):
+  - RNFBAuth (16.4.3):
     - Firebase/Auth (= 10.1.0)
     - React-Core
     - RNFBApp
-  - RNFBFirestore (16.4.2):
+  - RNFBFirestore (16.4.3):
     - Firebase/Firestore (= 10.1.0)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - React-Core
     - RNFBApp
-  - RNFBStorage (16.4.2):
+  - RNFBMessaging (16.4.3):
+    - Firebase/Messaging (= 10.1.0)
+    - FirebaseCoreExtension (= 10.1.0)
+    - React-Core
+    - RNFBApp
+  - RNFBStorage (16.4.3):
     - Firebase/Storage (= 10.1.0)
     - React-Core
     - RNFBApp
@@ -1093,6 +1121,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1111,8 +1140,11 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseFirestore
+    - FirebaseInstallations
+    - FirebaseMessaging
     - FirebaseStorage
     - fmt
+    - GoogleDataTransport
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
@@ -1196,6 +1228,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNFBStorage:
     :path: "../node_modules/@react-native-firebase/storage"
   RNImageCropPicker:
@@ -1222,9 +1256,12 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: 69b966c399abc4ca6dc75006ab87160f81512725
   FirebaseCoreInternal: 96d75228e10fd369564da51bd898414eb0f54df5
   FirebaseFirestore: d482e5e0f95dba8ef5d499a7efa87ba2f56ef0c0
+  FirebaseInstallations: 99d24bac0243cf8b0e96cf5426340d211f0bcc80
+  FirebaseMessaging: 4487bbff9b9b927ba1dd3ea40d1ceb58e4ee3cb5
   FirebaseStorage: 132c10c4d2f8ed8afbfa918eb35d19a87f383d59
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
@@ -1261,10 +1298,11 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: e9b1f9310158a1e265bcdfdfd8c62d6174b947a2
   ReactCommon: 01064177e66d652192c661de899b1076da962fd9
   RNAudioRecorderPlayer: 308940de4f9d1448a064874fd9d83479ae47c7a7
-  RNFBApp: 99c5caed4810fc27bee8c63f2fba2eede08c9768
-  RNFBAuth: 889daa9c75b3ca0bde167ae3d0781dad8c98e7cc
-  RNFBFirestore: 30544d71c46d6bd33d4b0bc8ec442a3e8b37a0c5
-  RNFBStorage: 1f26e82d96ba1a72edc27b04c02da1ee146b7dc0
+  RNFBApp: 90153cce9b119f4546a4e5fb1427bca963448dc5
+  RNFBAuth: 92b456cfd10dd43b3c0fd6b8f0252c0ca91015af
+  RNFBFirestore: dbb6e55179219a424b4cd98873a6a44e1d0a113e
+  RNFBMessaging: 3582b66e01117ae968d40e84940a6929f3f57760
+  RNFBStorage: 82620095b979e3a337755a16abdb5ab96e131658
   RNImageCropPicker: 648356d68fbf9911a1016b3e3723885d28373eda
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
