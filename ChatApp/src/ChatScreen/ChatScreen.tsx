@@ -241,7 +241,18 @@ const ChatScreen = () => {
             }
             if (message.imageUrl != null) {
               return (
-                <Message {...commonProps} message={{ url: message.imageUrl }} />
+                <Message
+                  {...commonProps}
+                  message={{ imageUrl: message.imageUrl }}
+                />
+              );
+            }
+            if (message.audioUrl != null) {
+              return (
+                <Message
+                  {...commonProps}
+                  message={{ audioUrl: message.audioUrl }}
+                />
               );
             }
             return null;
