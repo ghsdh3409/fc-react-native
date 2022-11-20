@@ -10,12 +10,14 @@ import {
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import messaging from '@react-native-firebase/messaging';
+import Toast from 'react-native-toast-message';
 
 import AuthContext from '../components/AuthContext';
 import Screen from '../components/Screen';
 import Colors from '../modules/Colors';
 import { Collections, RootStackParamList, User } from '../types';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Profile from './Profile';
 import UserPhoto from '../components/UserPhoto';
@@ -104,6 +106,7 @@ const HomeScreen = () => {
   const [users, setUsers] = useState<User[]>([]);
   const { navigate } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const isFocused = useIsFocused();
 
   console.log('users', users);
 
@@ -147,6 +150,68 @@ const HomeScreen = () => {
     [],
   );
 
+  useEffect(() => {
+    // 1. App: background
+    const unsubscribe = messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log('remoteMessage', remoteMessage);
+      const stringifiedUserIds = remoteMessage.data?.userIds;
+      if (stringifiedUserIds != null) {
+        const userIds = JSON.parse(stringifiedUserIds) as string[];
+        console.log('userIds', userIds);
+        navigate('Chat', { userIds });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate]);
+
+  useEffect(() => {
+    // 2. App: Quit
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        console.log('getInitialNotification - remoteMessage', remoteMessage);
+        const stringifiedUserIds = remoteMessage?.data?.userIds;
+        if (stringifiedUserIds != null) {
+          const userIds = JSON.parse(stringifiedUserIds) as string[];
+          console.log('userIds', userIds);
+          navigate('Chat', { userIds });
+        }
+      });
+  }, [navigate]);
+
+  useEffect(() => {
+    // 3. App: Foreground
+    const unsubscribe = messaging().onMessage(remoteMessage => {
+      console.log('onMessage - remoteMessage', remoteMessage);
+      const { notification } = remoteMessage;
+      if (notification != null) {
+        const { title, body } = notification;
+        if (isFocused) {
+          Toast.show({
+            type: 'success',
+            text1: title,
+            text2: body,
+            onPress: () => {
+              const stringifiedUserIds = remoteMessage.data?.userIds;
+              if (stringifiedUserIds != null) {
+                const userIds = JSON.parse(stringifiedUserIds) as string[];
+                console.log('userIds', userIds);
+                navigate('Chat', { userIds });
+              }
+            },
+          });
+        }
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate, isFocused]);
+
   if (me == null) {
     return null;
   }
@@ -188,7 +253,6 @@ const HomeScreen = () => {
                     onPress={() => {
                       navigate('Chat', {
                         userIds: [me.userId, user.userId],
-                        other: user,
                       });
                     }}>
                     <UserPhoto
