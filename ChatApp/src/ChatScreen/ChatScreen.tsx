@@ -127,7 +127,7 @@ const disabledSendButtonStyle = [
 
 const ChatScreen = () => {
   const { params } = useRoute<RouteProp<RootStackParamList, 'Chat'>>();
-  const { other, userIds } = params;
+  const { userIds } = params;
   const {
     loadingChat,
     chat,
@@ -144,6 +144,13 @@ const ChatScreen = () => {
   const sendDisabled = useMemo(() => text.length === 0, [text]);
   const { user: me } = useContext(AuthContext);
   const loading = loadingChat || loadingMessages;
+
+  const other = useMemo(() => {
+    if (chat != null && me != null) {
+      return chat.users.filter(u => u.userId !== me.userId)[0];
+    }
+    return null;
+  }, [chat, me]);
 
   console.log('messages', messages);
 
@@ -312,7 +319,7 @@ const ChatScreen = () => {
   ]);
 
   return (
-    <Screen title={other.name}>
+    <Screen title={other?.name}>
       <View style={styles.container}>
         {loading ? (
           <View style={styles.loadingContainer}>
