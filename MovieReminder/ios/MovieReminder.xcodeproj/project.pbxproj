@@ -12,6 +12,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		28FEAE2E2933260600741A7B /* CalendarModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FEAE2D2933260600741A7B /* CalendarModule.swift */; };
+		28FEAE302933263A00741A7B /* CalendarModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FEAE2F2933263A00741A7B /* CalendarModuleBridge.m */; };
 		7699B88040F8A987B510C191 /* libPods-MovieReminder-MovieReminderTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MovieReminder-MovieReminderTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -53,6 +55,9 @@
 		28FEAE1929330BAE00741A7B /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		28FEAE1A29330BAE00741A7B /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		28FEAE1B29330BAE00741A7B /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		28FEAE2C2933260500741A7B /* MovieReminder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MovieReminder-Bridging-Header.h"; sourceTree = "<group>"; };
+		28FEAE2D2933260600741A7B /* CalendarModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModule.swift; sourceTree = "<group>"; };
+		28FEAE2F2933263A00741A7B /* CalendarModuleBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarModuleBridge.m; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-MovieReminder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieReminder.debug.xcconfig"; path = "Target Support Files/Pods-MovieReminder/Pods-MovieReminder.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-MovieReminder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieReminder.release.xcconfig"; path = "Target Support Files/Pods-MovieReminder/Pods-MovieReminder.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-MovieReminder-MovieReminderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieReminder-MovieReminderTests.debug.xcconfig"; path = "Target Support Files/Pods-MovieReminder-MovieReminderTests/Pods-MovieReminder-MovieReminderTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +114,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				28FEAE2D2933260600741A7B /* CalendarModule.swift */,
+				28FEAE2C2933260500741A7B /* MovieReminder-Bridging-Header.h */,
+				28FEAE2F2933263A00741A7B /* CalendarModuleBridge.m */,
 			);
 			name = MovieReminder;
 			sourceTree = "<group>";
@@ -248,7 +256,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1410;
 					};
 				};
 			};
@@ -453,7 +461,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28FEAE2E2933260600741A7B /* CalendarModule.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				28FEAE302933263A00741A7B /* CalendarModuleBridge.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -473,6 +483,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-MovieReminder-MovieReminderTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -500,6 +511,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-MovieReminder-MovieReminderTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = MovieReminderTests/Info.plist;
@@ -540,6 +552,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.daehoonkim.moviereminder;
 				PRODUCT_NAME = MovieReminder;
+				SWIFT_OBJC_BRIDGING_HEADER = "MovieReminder-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -565,6 +578,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.daehoonkim.moviereminder;
 				PRODUCT_NAME = MovieReminder;
+				SWIFT_OBJC_BRIDGING_HEADER = "MovieReminder-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

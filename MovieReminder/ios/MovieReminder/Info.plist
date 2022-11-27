@@ -37,6 +37,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>It is used to save release date of movies by user.</string>
   <key>UIAppFonts</key>
   <array>
     <string>AntDesign.ttf</string>
