@@ -52,9 +52,15 @@ interface ScreenProp {
   children?: React.ReactNode;
   title?: string;
   headerVisible?: boolean;
+  renderRightComponent?: () => JSX.Element;
 }
 
-const Screen = ({ children, title, headerVisible = true }: ScreenProp) => {
+const Screen = ({
+  children,
+  title,
+  headerVisible = true,
+  renderRightComponent,
+}: ScreenProp) => {
   const { goBack, canGoBack } = useNavigation();
   const onPressBackButton = useCallback(() => {
     goBack();
@@ -78,7 +84,9 @@ const Screen = ({ children, title, headerVisible = true }: ScreenProp) => {
           <View style={styles.center}>
             <Text style={styles.headerTitle}>{title}</Text>
           </View>
-          <View style={styles.right} />
+          <View style={styles.right}>
+            {renderRightComponent != null && renderRightComponent()}
+          </View>
         </View>
       )}
       <View style={styles.content}>{children}</View>
