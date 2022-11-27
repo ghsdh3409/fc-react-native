@@ -28,6 +28,12 @@ const useReminder = () => {
     })();
   }, []);
 
+  const [reminders, setReminders] = useState<TriggerNotification[]>([]);
+  const loadReminders = useCallback(async () => {
+    const notifications = await notifee.getTriggerNotifications();
+    setReminders(notifications);
+  }, []);
+
   const addReminder = useCallback(
     async (movieId: number, releaseDate: string, title: string) => {
       const settings = await notifee.requestPermission();
@@ -66,25 +72,37 @@ const useReminder = () => {
         },
         trigger,
       );
+
+      await loadReminders();
     },
-    [channelId],
+    [channelId, loadReminders],
   );
 
-  const [reminders, setReminders] = useState<TriggerNotification[]>([]);
-  const loadReminders = useCallback(async () => {
-    return notifee.getTriggerNotifications();
-  }, []);
-
   useEffect(() => {
-    (async () => {
-      const notifications = await loadReminders();
-      setReminders(notifications);
-    })();
+    loadReminders();
   }, [loadReminders]);
+
+  const removeReminder = useCallback(
+    async (id: string) => {
+      await notifee.cancelTriggerNotification(id);
+      await loadReminders();
+    },
+    [loadReminders],
+  );
+
+  const hasReminder = useCallback(
+    (id: string) => {
+      const reminder = reminders.find(r => r.notification.id === id);
+      return reminder != null;
+    },
+    [reminders],
+  );
 
   return {
     addReminder,
+    removeReminder,
     reminders,
+    hasReminder,
   };
 };
 
