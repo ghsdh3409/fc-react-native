@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -61,6 +62,7 @@ const Screen = ({
   headerVisible = true,
   renderRightComponent,
 }: ScreenProp) => {
+  const colorScheme = useColorScheme();
   const { goBack, canGoBack } = useNavigation();
   const onPressBackButton = useCallback(() => {
     goBack();
@@ -68,6 +70,8 @@ const Screen = ({
   return (
     <SafeAreaView style={styles.container}>
       {Platform.OS === 'ios' ? (
+        <StatusBar barStyle="light-content" />
+      ) : colorScheme === 'dark' ? (
         <StatusBar barStyle="light-content" />
       ) : (
         <StatusBar barStyle="dark-content" />
