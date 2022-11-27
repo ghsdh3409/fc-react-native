@@ -2,11 +2,13 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Image,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Screen from '../../components/Screen';
@@ -16,6 +18,8 @@ import Colors from 'open-color';
 import Section from './Section';
 import People from './People';
 import YouTubeVideo from './YouTubeVideo';
+import CalendarModule from '../../modules/CalendarModule';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -66,6 +70,16 @@ const styles = StyleSheet.create({
   verticalSeparator: {
     height: 16,
   },
+  addToCalendarButton: {
+    marginTop: 8,
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    alignItems: 'center',
+    padding: 12,
+  },
+  addToCalendarButtonText: {
+    color: Colors.black,
+  },
 });
 
 const MovieScreen = () => {
@@ -111,6 +125,21 @@ const MovieScreen = () => {
               style={styles.releaseDateText}>{`개봉일: ${releaseDate}`}</Text>
           </View>
         </View>
+        <TouchableOpacity
+          style={styles.addToCalendarButton}
+          onPress={async () => {
+            try {
+              await CalendarModule.createCalendarEvent(
+                moment(releaseDate).valueOf() / 1000,
+                title,
+              );
+              Alert.alert('캘린더 등록이 완료 되었습니다.');
+            } catch (error: any) {
+              Alert.alert(error.message);
+            }
+          }}>
+          <Text style={styles.addToCalendarButtonText}>캘린더에 추가하기</Text>
+        </TouchableOpacity>
         <Section title="소개">
           <Text style={styles.overviewText}>{overview}</Text>
         </Section>
