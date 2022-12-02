@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import mobileAds from 'react-native-google-mobile-ads';
 import Movie from './Movie';
 import useMovies from './useMovies';
 import Colors from 'open-color';
@@ -49,6 +50,14 @@ const MoviesScreen = () => {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const [adsInitialized, setAdsInitialized] = useState(false);
+  useEffect(() => {
+    (async () => {
+      await mobileAds().initialize();
+      setAdsInitialized(true);
+    })();
+  }, []);
+
   const renderRightComponent = useCallback(() => {
     return (
       <View style={styles.headerRightComponent}>
@@ -65,7 +74,7 @@ const MoviesScreen = () => {
 
   return (
     <Screen renderRightComponent={renderRightComponent}>
-      {isLoading ? (
+      {isLoading || !adsInitialized ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
         </View>
