@@ -36,6 +36,11 @@ const useReminder = () => {
     setReminders(notifications);
   }, []);
 
+  const canAddReminder = useCallback(async () => {
+    const triggeredNotifications = await notifee.getTriggerNotifications();
+    return triggeredNotifications.length < MAX_REMINDER_NUM_FOR_FREE;
+  }, []);
+
   const addReminder = useCallback(
     async (movieId: number, releaseDate: string, title: string) => {
       const settings = await notifee.requestPermission();
@@ -54,13 +59,6 @@ const useReminder = () => {
 
       if (channelId == null) {
         throw new Error('Channel is not created');
-      }
-
-      const triggeredNotifications = await notifee.getTriggerNotifications();
-      if (triggeredNotifications.length >= MAX_REMINDER_NUM_FOR_FREE) {
-        throw new Error(
-          `Free users can add up to ${MAX_REMINDER_NUM_FOR_FREE} reminders`,
-        );
       }
 
       // Create a time-based trigger
@@ -112,6 +110,7 @@ const useReminder = () => {
     removeReminder,
     reminders,
     hasReminder,
+    canAddReminder,
   };
 };
 
