@@ -10,6 +10,8 @@ import notifee, {
 import { Platform } from 'react-native';
 import moment from 'moment';
 
+const MAX_REMINDER_NUM_FOR_FREE = 2;
+
 const useReminder = () => {
   const [channelId, setChannelId] = useState<string | null>(null);
 
@@ -52,6 +54,13 @@ const useReminder = () => {
 
       if (channelId == null) {
         throw new Error('Channel is not created');
+      }
+
+      const triggeredNotifications = await notifee.getTriggerNotifications();
+      if (triggeredNotifications.length >= MAX_REMINDER_NUM_FOR_FREE) {
+        throw new Error(
+          `Free users can add up to ${MAX_REMINDER_NUM_FOR_FREE} reminders`,
+        );
       }
 
       // Create a time-based trigger
