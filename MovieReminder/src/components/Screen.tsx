@@ -13,6 +13,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Colors from 'open-color';
 import ScreenBannerAd from './ScreenBannerAd';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +50,14 @@ const styles = StyleSheet.create({
     color: Colors.white,
     marginLeft: 20,
   },
+  subscription: {
+    backgroundColor: Colors.white,
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  subscriptionText: {
+    color: Colors.black,
+  },
 });
 
 interface ScreenProp {
@@ -64,7 +74,8 @@ const Screen = ({
   renderRightComponent,
 }: ScreenProp) => {
   const colorScheme = useColorScheme();
-  const { goBack, canGoBack } = useNavigation();
+  const { goBack, canGoBack, navigate } =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const onPressBackButton = useCallback(() => {
     goBack();
   }, [goBack]);
@@ -94,6 +105,15 @@ const Screen = ({
           </View>
         </View>
       )}
+      <TouchableOpacity
+        style={styles.subscription}
+        onPress={() => {
+          navigate('Purchase');
+        }}>
+        <Text style={styles.subscriptionText}>
+          구독하고 광고 없이 앱을 무제한으로 사용해보세요!
+        </Text>
+      </TouchableOpacity>
       <ScreenBannerAd />
       <View style={styles.content}>{children}</View>
     </SafeAreaView>
