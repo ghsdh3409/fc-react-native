@@ -5861,6 +5861,11 @@ react-native-gradle-plugin@^0.70.3:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.3.tgz#cbcf0619cbfbddaa9128701aa2d7b4145f9c4fc8"
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
 
+react-native-purchases@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-purchases/-/react-native-purchases-5.3.0.tgz#3c23d1e25c0392a3e6b603d599797c044d3e5e73"
+  integrity sha512-LFnL6iIdbTfbxUkdt1rffRuB9+I8mMoVYRrzdBu4vzRSI88/2pJveLcYjy4306+LVeTZYpbxdU6apVd6mkZPHQ==
+
 react-native-safe-area-context@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz#239c60b8a9a80eac70a38a822b04c0f1d15ffc01"
