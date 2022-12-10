@@ -122,6 +122,8 @@ PODS:
   - nanopb/encode (2.30909.0)
   - OpenSSL-Universal (1.1.1100)
   - PromisesObjC (2.1.1)
+  - PurchasesHybridCommon (4.5.0):
+    - RevenueCat (= 4.15.0)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -403,6 +405,7 @@ PODS:
     - React-jsi (= 0.70.3)
     - React-logger (= 0.70.3)
     - React-perflogger (= 0.70.3)
+  - RevenueCat (4.15.0)
   - RNGoogleMobileAds (8.2.2):
     - Google-Mobile-Ads-SDK (= 9.12.0)
     - GoogleUserMessagingPlatform (= 2.0.0)
@@ -411,6 +414,9 @@ PODS:
     - React-Core
     - RNNotifee/NotifeeCore (= 7.1.0)
   - RNNotifee/NotifeeCore (7.1.0):
+    - React-Core
+  - RNPurchases (5.3.0):
+    - PurchasesHybridCommon (= 4.5.0)
     - React-Core
   - RNScreens (3.18.2):
     - React-Core
@@ -481,6 +487,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGoogleMobileAds (from `../node_modules/react-native-google-mobile-ads`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
+  - RNPurchases (from `../node_modules/react-native-purchases`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -506,6 +513,8 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - PurchasesHybridCommon
+    - RevenueCat
     - SocketRocket
     - YogaKit
 
@@ -578,6 +587,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-google-mobile-ads"
   RNNotifee:
     :path: "../node_modules/@notifee/react-native"
+  RNPurchases:
+    :path: "../node_modules/react-native-purchases"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
@@ -610,6 +621,7 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  PurchasesHybridCommon: de878dbbe2e5a95c93395f439371054375153add
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 5cf7e7d2f12699724b59f90350257a422eaa9492
   RCTTypeSafety: 3f3ead9673d1ab8bb1aea85b0894ab3220f8f06e
@@ -637,8 +649,10 @@ SPEC CHECKSUMS:
   React-RCTVibration: b9a58ffdd18446f43d493a4b0ecd603ee86be847
   React-runtimeexecutor: e9b1f9310158a1e265bcdfdfd8c62d6174b947a2
   ReactCommon: 01064177e66d652192c661de899b1076da962fd9
+  RevenueCat: 3a4b21720c320bb11f884e91e5088650903fce76
   RNGoogleMobileAds: 6e399a1b02f3d493f6b0ec7cf7f37623cc997034
   RNNotifee: 8527a2b9ffc6d0abfd907027e22962a809e39eee
+  RNPurchases: d2ed3c6dce4b56883f9d55ac562a93496899e5eb
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
