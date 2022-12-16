@@ -6,3 +6,5 @@
 
 # Folder to not ignore
 !/MovieReminder/
+
+MovieReminder/android/key/
