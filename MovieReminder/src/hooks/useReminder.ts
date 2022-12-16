@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import notifee, {
   AndroidImportance,
   AndroidNotificationSetting,
@@ -9,11 +9,13 @@ import notifee, {
 } from '@notifee/react-native';
 import { Platform } from 'react-native';
 import moment from 'moment';
+import SubscriptionContext from '../components/SubscriptionContext';
 
 const MAX_REMINDER_NUM_FOR_FREE = 2;
 
 const useReminder = () => {
   const [channelId, setChannelId] = useState<string | null>(null);
+  const { subscribed } = useContext(SubscriptionContext);
 
   useEffect(() => {
     (async () => {
@@ -38,8 +40,10 @@ const useReminder = () => {
 
   const canAddReminder = useCallback(async () => {
     const triggeredNotifications = await notifee.getTriggerNotifications();
-    return triggeredNotifications.length < MAX_REMINDER_NUM_FOR_FREE;
-  }, []);
+    return (
+      subscribed || triggeredNotifications.length < MAX_REMINDER_NUM_FOR_FREE
+    );
+  }, [subscribed]);
 
   const addReminder = useCallback(
     async (movieId: number, releaseDate: string, title: string) => {

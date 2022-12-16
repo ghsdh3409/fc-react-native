@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -15,6 +15,7 @@ import Colors from 'open-color';
 import ScreenBannerAd from './ScreenBannerAd';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
+import SubscriptionContext from './SubscriptionContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -79,6 +80,8 @@ const Screen = ({
   const onPressBackButton = useCallback(() => {
     goBack();
   }, [goBack]);
+  const { subscribed } = useContext(SubscriptionContext);
+
   return (
     <SafeAreaView style={styles.container}>
       {Platform.OS === 'ios' ? (
@@ -105,16 +108,20 @@ const Screen = ({
           </View>
         </View>
       )}
-      <TouchableOpacity
-        style={styles.subscription}
-        onPress={() => {
-          navigate('Purchase');
-        }}>
-        <Text style={styles.subscriptionText}>
-          구독하고 광고 없이 앱을 무제한으로 사용해보세요!
-        </Text>
-      </TouchableOpacity>
-      <ScreenBannerAd />
+      {!subscribed && (
+        <>
+          <TouchableOpacity
+            style={styles.subscription}
+            onPress={() => {
+              navigate('Purchase');
+            }}>
+            <Text style={styles.subscriptionText}>
+              구독하고 광고 없이 앱을 무제한으로 사용해보세요!
+            </Text>
+          </TouchableOpacity>
+          <ScreenBannerAd />
+        </>
+      )}
       <View style={styles.content}>{children}</View>
     </SafeAreaView>
   );
