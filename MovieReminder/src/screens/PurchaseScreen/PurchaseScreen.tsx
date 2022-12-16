@@ -2,7 +2,7 @@ import React from 'react';
 import Screen from '../../components/Screen';
 import Purchases, { PurchasesPackage } from 'react-native-purchases';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import OpenColor from 'open-color';
 
 const styles = StyleSheet.create({
@@ -58,8 +58,6 @@ const PurchaseScreen = () => {
     })();
   }, []);
 
-  console.log('products', products);
-
   return (
     <Screen>
       <View style={styles.container}>
@@ -78,7 +76,20 @@ const PurchaseScreen = () => {
                 ? '주'
                 : p.packageType;
             return (
-              <TouchableOpacity key={p.identifier} style={styles.product}>
+              <TouchableOpacity
+                key={p.identifier}
+                style={styles.product}
+                onPress={async () => {
+                  try {
+                    const result = await Purchases.purchasePackage(p);
+                    console.log('result', result);
+                    Alert.alert('구매 성공');
+                  } catch (e: any) {
+                    if (!e.userCancelled) {
+                      Alert.alert('구매 실패', e.message);
+                    }
+                  }
+                }}>
                 <Text
                   style={
                     styles.priceText
