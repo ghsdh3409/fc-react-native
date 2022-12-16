@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import CodePush from 'react-native-code-push';
 import MoviesScreen from './src/screens/MoviesScreen/MoviesScreen';
 import MovieScreen from './src/screens/MovieScreen/MovieScreen';
 import { RootStackParamList } from './src/types';
@@ -9,16 +10,13 @@ import RemindersScreen from './src/screens/RemindersScreen/RemindersScreen';
 import PurchaseScreen from './src/screens/PurchaseScreen/PurchaseScreen';
 import LoadingScreen from './src/screens/LoadingScreen/LoadingScreen';
 import SubscriptionProvider from './src/components/SubscriptionProvider';
+import useCodePush from './src/hooks/useCodePush';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient();
 
 const App = () => {
-  const updating = false;
-  const progress = {
-    total: 100,
-    now: 50,
-  };
+  const { updating, progress } = useCodePush();
 
   return (
     <SubscriptionProvider>
@@ -30,7 +28,14 @@ const App = () => {
                 {props => (
                   <LoadingScreen
                     {...props}
-                    progress={progress != null ? progress : undefined}
+                    progress={
+                      progress != null
+                        ? {
+                            total: progress.totalBytes,
+                            now: progress.receivedBytes,
+                          }
+                        : undefined
+                    }
                   />
                 )}
               </Stack.Screen>
@@ -49,4 +54,5 @@ const App = () => {
   );
 };
 
-export default App;
+const codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };
+export default CodePush(codePushOptions)(App);

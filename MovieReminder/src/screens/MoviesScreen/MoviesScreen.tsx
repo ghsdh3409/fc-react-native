@@ -4,6 +4,7 @@ import {
   FlatList,
   RefreshControl,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,6 +17,7 @@ import Screen from '../../components/Screen';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
+import { version } from '../../../package.json';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +43,14 @@ const styles = StyleSheet.create({
   alarmButton: {},
   alarmIcon: {
     fontSize: 24,
+    color: Colors.white,
+  },
+  headerLeftComponent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  versionText: {
     color: Colors.white,
   },
 });
@@ -72,8 +82,18 @@ const MoviesScreen = () => {
     );
   }, [navigate]);
 
+  const renderLeftComponent = useCallback(() => {
+    return (
+      <View style={styles.headerLeftComponent}>
+        <Text style={styles.versionText}>{`v${version}`}</Text>
+      </View>
+    );
+  }, []);
+
   return (
-    <Screen renderRightComponent={renderRightComponent}>
+    <Screen
+      renderLeftComponent={renderLeftComponent}
+      renderRightComponent={renderRightComponent}>
       {isLoading || !adsInitialized ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
