@@ -1,13 +1,15 @@
 {
   "name": "MovieReminder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "code-push-staging-ios": "appcenter codepush release-react -a daehoon/MovieReminder-iOS -d Staging",
+    "code-push-staging-android": "appcenter codepush release-react -a daehoon/MovieReminder-Android -d Staging"
   },
   "dependencies": {
     "@notifee/react-native": "^7.1.0",
