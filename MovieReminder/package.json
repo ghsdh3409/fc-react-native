@@ -9,7 +9,10 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "code-push-staging-ios": "appcenter codepush release-react -a daehoon/MovieReminder-iOS -d Staging",
-    "code-push-staging-android": "appcenter codepush release-react -a daehoon/MovieReminder-Android -d Staging"
+    "code-push-staging-android": "appcenter codepush release-react -a daehoon/MovieReminder-Android -d Staging",
+    "get-version-number-js": "node ./scripts/get-version-number-js.js",
+    "get-version-number-android": "node ./scripts/get-version-number-android.js android/app/build.gradle",
+    "get-build-number-android": "node ./scripts/get-build-number-android.js android/app/build.gradle"
   },
   "dependencies": {
     "@notifee/react-native": "^7.1.0",
