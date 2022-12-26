@@ -16,6 +16,22 @@
 default_platform(:android)
 
 platform :android do
+
+  desc "Send result to slack"
+  lane :send_result do
+    version = sh("yarn run get-version-number-android").split("\n")[2]
+    build = sh("yarn run get-build-number-android").split("\n")[2]
+    js_version = sh("yarn run get-version-number-js").split("\n")[2]
+    slack(
+      message: "앱이 배포되었습니다.",
+      slack_url: "https://hooks.slack.com/services/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",
+      payload: {
+        "Android version" => version + "(" + build + ")",
+        "JS version" => js_version
+      }
+    )
+  end
+
   desc "Submit a new version to the internal testing track"
   lane :beta do
     gradle(task: "clean")
@@ -27,6 +43,7 @@ platform :android do
       track: 'internal',
       release_status: 'draft'
     )
+    send_result
   end
 
   desc "Submit a new version to the production"
@@ -39,5 +56,6 @@ platform :android do
     upload_to_play_store(
       track: 'production'
     )
+    send_result
   end
 end

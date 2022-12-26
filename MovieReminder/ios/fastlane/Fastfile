@@ -27,6 +27,21 @@ platform :ios do
     )
   end
 
+  desc "Send result to slack"
+  lane :send_result do
+    version = get_version_number
+    build = get_build_number
+    js_version = sh("yarn run get-version-number-js").split("\n")[2]
+    slack(
+      message: "앱이 배포되었습니다.",
+      slack_url: "https://hooks.slack.com/services/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",
+      payload: {
+        "iOS version" => version + "(" + build + ")",
+        "JS version" => js_version
+      }
+    )
+  end
+
   desc "Push a new release build to the App Store"
   lane :release do
     match(type: "appstore", git_url: "https://github.com/ghsdh3409/moviereminder-cert.git")
@@ -37,5 +52,6 @@ platform :ios do
       force: true,
       precheck_include_in_app_purchases: false,
     )
+    send_result
   end
 end
