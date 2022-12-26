@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<YouTubeVideo /> renders correctly 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onLayout={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignSelf": "stretch",
+      "backgroundColor": "#ffffff",
+      "borderRadius": 12,
+      "opacity": 1,
+      "overflow": "hidden",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": "https://img.youtube.com/vi/test_key/0.jpg",
+      }
+    }
+    style={
+      Object {
+        "height": 0,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "color": "#000000",
+        "fontSize": 16,
+        "padding": 12,
+      }
+    }
+  >
+    Test Title
+  </Text>
+</View>
+`;

@@ -1,0 +1,13 @@
+# Ignore everything in repository root 
+/*
+
+# Files to not ignore
+!/.gitignore
+
+# Folder to not ignore
+!/MovieReminder/
+!/.github/
+
+MovieReminder/android/key/
+
+MovieReminder/ios/fastlane/key/

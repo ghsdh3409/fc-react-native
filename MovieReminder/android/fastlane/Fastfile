@@ -1,0 +1,61 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  desc "Send result to slack"
+  lane :send_result do
+    version = sh("yarn run get-version-number-android").split("\n")[2]
+    build = sh("yarn run get-build-number-android").split("\n")[2]
+    js_version = sh("yarn run get-version-number-js").split("\n")[2]
+    slack(
+      message: "앱이 배포되었습니다.",
+      slack_url: "https://hooks.slack.com/services/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",
+      payload: {
+        "Android version" => version + "(" + build + ")",
+        "JS version" => js_version
+      }
+    )
+  end
+
+  desc "Submit a new version to the internal testing track"
+  lane :beta do
+    gradle(task: "clean")
+    gradle(
+      task: 'bundle',
+      build_type: 'release'
+    )
+    upload_to_play_store(
+      track: 'internal',
+      release_status: 'draft'
+    )
+    send_result
+  end
+
+  desc "Submit a new version to the production"
+  lane :release do
+    gradle(task: "clean")
+    gradle(
+      task: 'bundle',
+      build_type: 'release'
+    )
+    upload_to_play_store(
+      track: 'production'
+    )
+    send_result
+  end
+end
