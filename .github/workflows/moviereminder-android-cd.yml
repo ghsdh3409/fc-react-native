@@ -1,5 +1,8 @@
 name: moviereminder-android-cd
 on:
+  pull_request:
+    branches:
+      - "master"
   push:
     branches:
       - "master"
@@ -39,3 +42,5 @@ jobs:
       - name: Deploy beta on playstore
         run: cd android && bundle exec fastlane beta
         working-directory: ${{ env.PROJECT_PATH }}
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
