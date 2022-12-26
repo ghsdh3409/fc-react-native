@@ -17,6 +17,10 @@ default_platform(:ios)
 
 platform :ios do
   before_all do
+    if FastlaneCore::Helper.is_ci?
+      setup_ci() # Use temporal keychain on CI
+    end
+
     app_store_connect_api_key(
       key_id: "F5563U2X9X",
       issuer_id: "61afe6ea-49f1-4468-b65d-704d54a07e66",
@@ -34,7 +38,7 @@ platform :ios do
     js_version = sh("yarn run get-version-number-js").split("\n")[2]
     slack(
       message: "앱이 배포되었습니다.",
-      slack_url: "https://hooks.slack.com/services/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",
+      slack_url: ENV["SLACK_URL"],
       payload: {
         "iOS version" => version + "(" + build + ")",
         "JS version" => js_version
