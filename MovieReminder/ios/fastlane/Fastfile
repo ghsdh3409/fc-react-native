@@ -34,7 +34,7 @@ platform :ios do
     js_version = sh("yarn run get-version-number-js").split("\n")[2]
     slack(
       message: "앱이 배포되었습니다.",
-      slack_url: "https://hooks.slack.com/services/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",
+      slack_url: ENV["SLACK_URL"],
       payload: {
         "iOS version" => version + "(" + build + ")",
         "JS version" => js_version
