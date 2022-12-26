@@ -1,5 +1,8 @@
 name: moviereminder-android-cd
 on:
+  pull_request:
+    branches:
+      - "master"
   push:
     branches:
       - "master"
