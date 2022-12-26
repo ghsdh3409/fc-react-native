@@ -1,0 +1,46 @@
+name: moviereminder-android-cd
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - "MovieReminder/android/**"
+jobs:
+  moviereminder-deploy-android:
+    name: Deploy android update
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_PATH: MovieReminder
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+        working-directory: ${{ env.PROJECT_PATH }}
+      - name: Test
+        run: yarn run test
+        working-directory: ${{ env.PROJECT_PATH }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          working-directory: ${{ env.PROJECT_PATH }}
+      - name: Install bundler
+        run: gem install bundler
+        working-directory: ${{ env.PROJECT_PATH }}
+      - name: Install fastlane
+        run: bundle install
+        working-directory: ${{ env.PROJECT_PATH }}
+      - name: Generate keystore
+        run: echo $ANDROID_RELEASE_KEYSTORE | base64 -d > ./android/app/my-upload-key.keystore
+        env:
+          ANDROID_RELEASE_KEYSTORE: ${{ secrets.ANDROID_RELEASE_KEYSTORE }}
+        working-directory: ${{ env.PROJECT_PATH }}
+      - name: Generate playstore service account
+        run: mkdir -p android/key && echo $PLAYSTORE_SERVICE_ACCOUNT | base64 -d > ./android/key/pc-api-7049181514897908329-469-71e75a96347d.json
+        env:
+          PLAYSTORE_SERVICE_ACCOUNT: ${{ secrets.PLAYSTORE_SERVICE_ACCOUNT }}
+        working-directory: ${{ env.PROJECT_PATH }}
+      - name: Deploy beta on playstore
+        run: cd android && bundle exec fastlane beta
+        working-directory: ${{ env.PROJECT_PATH }}
