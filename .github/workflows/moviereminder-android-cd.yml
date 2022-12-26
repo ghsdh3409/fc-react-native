@@ -28,12 +28,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           working-directory: ${{ env.PROJECT_PATH }}
-      - name: Install bundler
-        run: gem install bundler
-        working-directory: ${{ env.PROJECT_PATH }}
-      - name: Install fastlane
-        run: bundle install
-        working-directory: ${{ env.PROJECT_PATH }}
+          bundler-cache: true
       - name: Generate keystore
         run: echo $ANDROID_RELEASE_KEYSTORE | base64 -d > ./android/app/my-upload-key.keystore
         env:
