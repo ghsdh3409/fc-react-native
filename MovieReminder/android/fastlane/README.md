@@ -15,6 +15,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
+### android send_result
+
+```sh
+[bundle exec] fastlane android send_result
+```
+
+Send result to slack
+
 ### android beta
 
 ```sh
