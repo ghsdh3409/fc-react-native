@@ -6,6 +6,7 @@
 
 # Folder to not ignore
 !/MovieReminder/
+!/.github/
 
 MovieReminder/android/key/
 
